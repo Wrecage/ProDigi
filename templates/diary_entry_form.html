@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProDigi - Entry Form</title>
+    <style>
+        body {
+            font-family: 'Space Mono', monospace;
+            line-height: 1.6;
+            background: #333333;
+            color: #FF5733;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+         
+        }
+
+        .entries-container{
+            flex: 0.14;
+            padding: 10px;
+            box-sizing: border-box;
+            background: #333333;
+            border-radius: 5px;
+            margin-right: 5px;
+            overflow: hidden;
+        }
+
+        .entries-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #FF5733;
+        }
+
+        .entry {
+            background: #555555;
+            color: #FFFFFF;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .entry:hover {
+            background: #777777;
+        }
+
+        .entry-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 20px;
+            word-wrap: break-word;
+        }
+        .entry-reminder {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #FF5733;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .entry-text-title {
+            width: calc(90% - 2em);
+            margin: 1em auto;
+            padding: 1em;
+            border-radius: 10px;
+            border: unset;
+            background-color: rgb(241, 241, 177);
+            outline-color: #FF5733;
+            font-size: 1rem;
+            color: #FF5733;
+        }
+
+        .entry-text-box {
+            width: calc(100% - 2em);
+            height: 30em;
+            margin: 1em auto;
+            padding: 1em;
+            border-radius: 2px;
+            border: unset;
+            background-color: lightgoldenrodyellow;
+            outline-color: #FF5733;
+            font-size: 1rem;
+            
+        }
+
+        .form-container {
+            flex: 0.7;
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 900px;
+            background: #4d4a4a;
+            border-radius: 5px;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 1em;
+        }
+
+        .form-section div {
+            width: calc(33.33% - 1em);
+        }
+
+        .entry-submit-btn {
+            background-color: #333333;
+            color: #FF5733;
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .entry-submit-btn:hover {
+            background-color: #FF5733;
+            color: #333333;
+            transform: scale(1.05);
+        }
+
+        .crud-buttons a {
+          margin-right: 1em;
+          background-color: #333333;
+          color: #FF5733;
+          border: none;
+          border-radius: 2px;
+          padding: 0.3rem 0.8rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+
+        .crud-buttons a:hover {
+          background-color: #FF5733;
+          color: #333333;
+          transform: scale(1.05);
+        }
+        .sort-links {
+            margin-bottom: 5px;
+                }
+
+        .sort-links a {
+            display: inline-block;
+            margin-right: 1px;
+            color: #ffffff;
+            text-decoration: none;
+            
+            border: 1px solid #333333;
+            border-radius: 5px;
+        }
+
+        .sort-links a:hover,
+        .sort-links a.active {
+            background-color: #333333;
+            color: #e7410e;
+            text-decoration: underline;
+        }
+
+        @keyframes flicker {
+            0% { color: red; }
+            50% { color: blue; }
+            100% { color: red; }
+        }
+
+        .flicker-text {
+            animation: flicker 1s infinite; /* 1s duration, infinite loop */
+            font-weight: bold;
+            font-size: 18px; /* You can adjust the font size as needed */
+        }
+
+       
+        .navigation {
+            position:absolute;
+            top: 0;
+            right: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            z-index: 1000;
+            background-color: #333333;
+           
+          
+        }
+
+        .navigation img {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            margin-right: 10px; 
+        }
+
+        .navigation a {
+            color: #535252;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .suggestions-container {
+            background: #e7e5e5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color:#333333;
+        }
+
+        .suggestion {
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <script>
+        const csrf_token = "{{ csrf_token }}";
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+    
+</head>
+
+<body>
+    <div class="navigation">
+        <a href="/profile">
+            <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile Image">
+        </a>
+      
+    </div>
+    
+  
+    
+
+    <div class="entries-container" id="entries-container">
+        <div class="sort-links">
+            Sort by:
+            <a href="?sort=date">Date</a>
+            <a href="?sort=title">Title</a>
+        </div>
+        <div class="entries-title">Saved Entries</div>
+        {% for entry in entries %} 
+        {% if entry.user == request.user %}
+   
+        <div class="entry" data-entry-id="{{ entry.id }}">
+            <div class="entry-title">{{ entry.title }}</div>
+            {% if entry.reminder_date and entry.reminder_time %}
+            <div class="entry-reminder"><span class="flicker-text">REMINDER:</span><br> {{ entry.reminder_date }} {{ entry.reminder_time }}</div>
+            {% endif %}
+
+            <!-- for editing -->
+            <form method="GET" action="{% url 'edit_entry' entry.id %}" style="display: inline;">
+                <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                <button type="submit" class="entry-submit-btn">Edit</button>
+            </form>
+
+            <!-- for deleting -->
+            <form method="POST" action="{% url 'delete_entry' entry.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="entry-submit-btn" onclick="return confirm('Are you sure you want to delete this entry?')">Delete</button>
+            </form>
+
+
+            <input type="hidden" id="edit-entry-id" value="{{ entry.id }}">
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+   
+
+
+
+    <div class="form-container">
+        <form method="POST" action="{% url 'diary_entries' %}">
+            {% csrf_token %}
+          
+            <div class="form-section">
+                <div>
+                    <label for="mood" class="journal-label" >Mood:</label>
+                    <input type="text" id="mood" name="mood" class="entry-text-title" required value="{{entry.mood}}">
+                </div>
+                <div>
+                    <label for="date" class="journal-label">Date:</label>
+                    <input type="date" id="date" name="date" class="entry-text-title" required value="{{ entry.date|date:'Y-m-d' }}">
+                </div>
+                <div>
+                    <label for="time" class="journal-label">Time:</label>
+                    <input type="time" id="time" name="time" class="entry-text-title" required value="{{ entry.time|date:'H:i' }}">
+                </div>
+
+                <div>
+                    <label for="reminder_date" class="journal-label">Reminder Date:</label>
+                    <input type="date" id="reminder_date" name="reminder_date" class="entry-text-title" value="{{ entry.reminder_date|default:'' }}">
+                </div>
+                <div>
+                    <label for="reminder_time" class="journal-label">Reminder Time:</label>
+                    <input type="time" id="reminder_time" name="reminder_time" class="entry-text-title" value="{{ entry.reminder_time|default:'' }}">
+                </div>
+                
+            </div>
+           
+            <label for="title" class="journal-label">Title:</label>
+            <input type="text"  name="title" class="entry-text-title" required value>
+            <label for="content" class="journal-label">Content:</label>
+            <textarea  name="content" class="entry-text-box" required></textarea>
+
+            <button type="submit" class="entry-submit-btn" >Save Entry</button>
+
+        </form>
+    </div>
+
+   
+    <div class="suggestions-container">
+        <h2>Suggestions</h2>
+      
+    </div>
+
+    <script>
+
+        function editEntry(entryId) {
+                window.location.href = '/entry/edit/' + entryId;
+            }
+
+    </script>
+ 
+        
+
+</body>
+
+</html>

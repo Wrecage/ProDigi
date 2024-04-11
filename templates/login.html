@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProDigi - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #555353;
+    }
+    .header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .container {
+      position: relative; /* Relative positioning for right-side content */
+      height: calc(100vh - 2rem); /* Adjusted to account for header and footer */
+      max-height: calc(100vh - 2rem); /* Set a maximum height */
+    }
+    .login-box {
+      background-color: #fff;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      padding: 2rem;
+      text-align: center;
+      width: 400px; /* Fixed width */
+      position: absolute; /* Absolute positioning for login box */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center horizontally and vertically */
+    }
+    .login-heading {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-button {
+      display: inline-block;
+      padding: 0.8rem 2.5rem;
+      background-color: #FF5733;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .create-account-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #FF5733; /* Set the color to an appealing one */
+      text-decoration: underline; /* Underline the link */
+      font-weight: bold; /* Make it bold */
+    }
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .right-side {
+      position: absolute; /* Absolute positioning for image */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
+    
+    .right-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>ProDigi</h1>
+    <p>Your Digital Journaling Companion</p>
+  </header>
+  <div class="container">
+    <div class="right-side">
+      
+    </div>
+    <div class="login-box">
+      <h2 class="login-heading">Login</h2>
+
+
+      {% if message %}
+      <script>
+          alert("{{ message1 }}");
+      </script>
+      {% endif %}
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="text" class="input-field" placeholder="Username" name="username" id="username" required>
+        <input type="password" class="input-field" placeholder="Password" name="password" id="password" required>
+        <a href="{% url 'signup'%}" class="create-account-link">Create an Account</a><br>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+
+
+    </div>
+  </div>
+  <footer class="footer">
+    <p>&copy; 2023 ProDigi. All rights reserved.</p>
+  </footer>
+</body>
+</html>

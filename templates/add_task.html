@@ -1,0 +1,168 @@
+<!-- add_task.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <style>
+        
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F0F0F0;
+    margin: 0;
+    padding: 0;
+    background-image: cover;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+section {
+    margin: 1em;
+    padding: 1em;
+    background-color: #333333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    margin-top: 1em;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5em;
+    color: #f1f1f1;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    width: calc(100% - 1em);
+    padding: 0.8em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #FAFAD2;
+}
+
+.small-input {
+    width: calc(50% - 45em); /* Adjusted width for small inputs */
+}
+
+.medium-input {
+    width: calc(50% - 12em); /* Adjusted width for small inputs */
+}
+
+.large-input {
+    width: calc(100% - 1em); /* Adjusted width for large inputs */
+    height: 150px; /* Set a fixed height for the textarea */
+}
+
+button {
+    padding: 0.8em 2.5em;
+    background-color: #FF5733;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Optional: Add some animation to the button */
+button:active {
+    transform: scale(0.95);
+}
+
+
+        .navigation {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            z-index: 1000;
+            background-color: #333333;
+        }
+
+        .navigation img {
+            width: 40px; /* Set the width of the profile image */
+            height: 40px; /* Set the height of the profile image */
+            border-radius: 50%; /* Make the image round */
+            margin-right: 10px; /* Add some spacing between image and text */
+        }
+
+        .navigation a {
+            color: #FF5733;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .profile-button {
+      display: inline-block;
+      padding: 0.8rem 2.5rem;
+      background-color: #FF5733;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s ease; 
+    }
+
+    .profile-button:hover {
+    background-color: #aaa5a5;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Add Task</h1>
+        <a href="{% url 'task_list' %}" class="profile-button">Task Entries</a>
+    </header>
+    <div class="navigation">
+        <a href="/profile">
+            <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile Image">
+        </a>
+    </div>
+
+    
+
+    <section>
+        <form method="POST" action="{% url 'add_task' %}">
+            {% csrf_token %}
+    
+            <label for="title">Title:</label>
+            <input type="text" name="title" class="medium-input" required>
+    
+            <label for="description">Description:</label>
+            <textarea name="description" class="large-input" required></textarea>
+    
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date" class="small-input" required>
+            
+            <label for="category">Category:</label>
+            <select class="small-input" name="category" id="category">
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="school">School</option>
+            </select>
+            <br><button type="submit">Add Task</button>
+        </form>
+    </section>
+
+</html>
