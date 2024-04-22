@@ -81,6 +81,47 @@ def LoginPage(request):
         
     return render(request, 'login.html')
 
+
+#apply suggestions
+def apply_suggestions(request):
+    if request.method == 'POST':
+        text = request.POST.get('text', '')
+
+        tool = language_tool_python.LanguageTool('en-US')
+        corrected_text = tool.correct(text)
+        tool.close()
+
+        return JsonResponse({'text': corrected_text})
+
+    return JsonResponse({'error': 'Invalid request'})
+
+#diary entry
+@login_required
+def diary_entries(request):
+    sort = request.GET.get('sort', 'date')  
+    if sort == 'date':
+        entries = DiaryEntry.objects.order_by('date')
+    elif sort == 'title':
+        entries = DiaryEntry.objects.order_by('title')
+    else:
+        entries = DiaryEntry.objects.all()
+    if request.method == 'POST':
+        diary_form = DiaryEntryForm(request.POST, user=request.user)
+
+        if diary_form.is_valid():
+            diary = diary_form.save(commit=False)
+            diary.user = request.user 
+            diary.save()
+            
+            return redirect('diary_entries')
+            
+    else:
+       diary_form = DiaryEntryForm()
+
+    return render(request, 'diary_entry_form.html', {'entries': entries, 'diary_form': diary_form})
+
+
+
 @login_required
 def ProfilePage(request):
     diary_entry_count = DiaryEntry.objects.filter(user=request.user).count()

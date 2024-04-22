@@ -281,6 +281,8 @@
 
 
 
+
+
     <div class="form-container">
         <form method="POST" action="{% url 'diary_entries' %}">
             {% csrf_token %}
@@ -300,12 +302,12 @@
                 </div>
 
                 <div>
-                    <label for="reminder_date" class="journal-label">Reminder Date:</label>
-                    <input type="date" id="reminder_date" name="reminder_date" class="entry-text-title" value="{{ entry.reminder_date|default:'' }}">
+                    <!-- <label for="reminder_date" class="journal-label">Reminder Date:</label>
+                    <input type="date" id="reminder_date" name="reminder_date" class="entry-text-title" value="{{ entry.reminder_date|default:'' }}"> -->
                 </div>
                 <div>
-                    <label for="reminder_time" class="journal-label">Reminder Time:</label>
-                    <input type="time" id="reminder_time" name="reminder_time" class="entry-text-title" value="{{ entry.reminder_time|default:'' }}">
+                    <!-- <label for="reminder_time" class="journal-label">Reminder Time:</label>
+                    <input type="time" id="reminder_time" name="reminder_time" class="entry-text-title" value="{{ entry.reminder_time|default:'' }}"> -->
                 </div>
                 
             </div>
@@ -317,14 +319,20 @@
 
             <button type="submit" class="entry-submit-btn" >Save Entry</button>
 
+            
+            <button type="button" class="entry-submit-btn check-text-btn">Check Text</button>
         </form>
     </div>
 
-   
+    <form id="applySuggestionsForm" action="/apply_suggestions/" method="post">
+        {% csrf_token %}
     <div class="suggestions-container">
         <h2>Suggestions</h2>
-      
+        <h6>(Language-Tool Python)</h6>
+        <button type="button" class="entry-submit-btn apply-suggestions-btn">Apply Suggestions</button>
+        <button type="button" class="entry-submit-btn ignore-suggestions-btn">Ignore Suggestions</button>
     </div>
+    </form>
 
     <script>
 
@@ -332,7 +340,19 @@
                 window.location.href = '/entry/edit/' + entryId;
             }
 
+        //Check text action
+        document.addEventListener('DOMContentLoaded', function () {
+            const entryForm = document.getElementById('entryForm');
+            const checkTextBtn = document.querySelector('.check-text-btn');
+
+            checkTextBtn.addEventListener('click', function () {
+                entryForm.action = '/check_text/';
+                entryForm.submit();
+            });
+        });
+
     </script>
+ 
  
         
 
