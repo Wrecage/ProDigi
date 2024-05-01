@@ -92,6 +92,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -129,3 +132,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+
+#Secure Session Configuration
+
+# #HTTP

@@ -43,4 +43,10 @@ urlpatterns = [
     path('complete_task/<int:task_id>/', views.complete_task, name='complete_task'),
     path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
     path('task_detail/<int:task_id>/', views.task_detail, name='task_detail'),
+
+
+    #Language Tool related URLS
+    path('apply_suggestions/', views.apply_suggestions, name='apply_suggestions'),
+    path('grammar-check/', views.grammar_check_view, name='grammar_check'),
+
 ]

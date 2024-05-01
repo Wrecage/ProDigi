@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammar Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .suggestion {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .correction {
+            color: rgb(2, 2, 2);
+        }
+
+        .arrow {
+            color: #007bff;
+            font-size: 18px;
+            margin-left: 5px;
+        }
+
+        .error-location {
+            background-color: rgba(252, 252, 70, 0.712);
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post" id="grammarForm" class="form-group">
+            {% csrf_token %}
+            <textarea name="text" placeholder="Enter your text here"></textarea><br>
+            <button type="submit">Check Grammar</button>
+        </form>
+
+        <div class="suggestion" id="suggestionsList">
+            <h2>Suggestions</h2>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("grammarForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            var text = formData.get("text");
+            fetch("https://api.languagetool.org/v2/check", {
+                method: "POST",
+                body: "text=" + encodeURIComponent(text) + "&language=en-US",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var suggestionsList = document.getElementById("suggestionsList");
+                suggestionsList.innerHTML = "";
+                data.matches.forEach(match => {
+                    var listItem = document.createElement("div");
+                    if (match.context) {
+                        var correctedText = match.context.text.slice(0, match.context.offset) +
+                                            `<span class="error-location ">${match.context.text.slice(match.context.offset, match.context.offset + match.context.length)}</span>` +
+                                            match.context.text.slice(match.context.offset + match.context.length);
+                        listItem.innerHTML = `
+                            <p class="error">✗ ${correctedText}</p>
+                            <p class="correction">✓ ${match.message}</p>
+                        `;
+                    } else {
+                        listItem.textContent = match.message;
+                    }
+                    suggestionsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>

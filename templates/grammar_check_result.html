@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammar Check Result</title>
+</head>
+<body>
+    <h1>Grammar Check Result</h1>
+    <p><strong>Original Text:</strong></p>
+    <p>{{ text }}</p>
+    <p><strong>Errors and Suggestions:</strong></p>
+    <ul>
+        {% for match in matches %}
+            <li>
+                <strong>Error:</strong> {{ match.message }}
+<ul>
+                <strong>Suggestions:</strong>
+                <ul>
+                    {% for suggestion in match.replacements %}
+                        <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -25,17 +25,19 @@ from django.views.decorators.http import require_POST
 
 
 #languageTool
-from language_tool_python import LanguageTool
-from enchant.checker import SpellChecker
-import enchant
-import requests
+import language_tool_python
 
 
 
 
+from django.contrib.auth.password_validation import (
+    UserAttributeSimilarityValidator,
+    MinimumLengthValidator,
+    CommonPasswordValidator,
+    NumericPasswordValidator
+)
 
-
-
+from django.core.exceptions import ValidationError
 
 
 def IndexPage(request):
@@ -53,74 +55,50 @@ def SignupPage(request):
         uname = request.POST.get('username')
         pass1 = request.POST.get('password')
 
+        validators = [
+            UserAttributeSimilarityValidator(),
+            MinimumLengthValidator(min_length=8),
+            CommonPasswordValidator(),
+            NumericPasswordValidator()
+        ]
+
+        try:
+            for validator in validators:
+                validator.validate(pass1)
+        except ValidationError as error:
+            message = ", ".join(error.messages)
+            return render(request, 'signup.html', {'message': message})
+
         if User.objects.filter(username=uname).exists():
-            message = "Account already registered"
+            message = "Username already taken"
         else:
             my_user = User.objects.create_user(uname, password=pass1)
             my_user.save()
-            return redirect('login')
-    
+            return redirect('login')   
     return render(request, 'signup.html', {'message': message})
     
+
+
 def LoginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        
+
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return HttpResponse("Account not registered")
+            error_message = "Account not registered"
+            return render(request, 'login.html', {'message': error_message})
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('profile')
         else:
-            return HttpResponse("Username or Password is incorrect")
-        
+            error_message = "Incorrect username or password"
+            return render(request, 'login.html', {'message': error_message})
+
     return render(request, 'login.html')
-
-
-#apply suggestions
-def apply_suggestions(request):
-    if request.method == 'POST':
-        text = request.POST.get('text', '')
-
-        tool = language_tool_python.LanguageTool('en-US')
-        corrected_text = tool.correct(text)
-        tool.close()
-
-        return JsonResponse({'text': corrected_text})
-
-    return JsonResponse({'error': 'Invalid request'})
-
-#diary entry
-@login_required
-def diary_entries(request):
-    sort = request.GET.get('sort', 'date')  
-    if sort == 'date':
-        entries = DiaryEntry.objects.order_by('date')
-    elif sort == 'title':
-        entries = DiaryEntry.objects.order_by('title')
-    else:
-        entries = DiaryEntry.objects.all()
-    if request.method == 'POST':
-        diary_form = DiaryEntryForm(request.POST, user=request.user)
-
-        if diary_form.is_valid():
-            diary = diary_form.save(commit=False)
-            diary.user = request.user 
-            diary.save()
-            
-            return redirect('diary_entries')
-            
-    else:
-       diary_form = DiaryEntryForm()
-
-    return render(request, 'diary_entry_form.html', {'entries': entries, 'diary_form': diary_form})
-
-
 
 @login_required
 def ProfilePage(request):
@@ -137,28 +115,24 @@ def LogoutPage(request):
     return redirect('index')
 
 
-#API
-def check_grammar_and_spell(text):
-    url_grammar = "https://textgears-textgears-v1.p.rapidapi.com/grammar"
-    url_spell = "https://textgears-textgears-v1.p.rapidapi.com/spelling"
 
-    headers = {
-        "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key": "e4a3d05315msh973e27d20a32bdcp133c13jsnde26aaedfa91",
-        "X-RapidAPI-Host": "textgears-textgears-v1.p.rapidapi.com"
-    }
 
-    payload = { "text": text }
 
-    # Make grammar check API request
-    response_grammar = requests.post(url_grammar, data=payload, headers=headers)
-    grammar_corrections = response_grammar.json()
+#apply suggestions
+def apply_suggestions(request):
+    if request.method == 'POST':
+        text = request.POST.get('text', '')
 
-    # Make spell check API request
-    response_spell = requests.post(url_spell, data=payload, headers=headers)
-    spell_corrections = response_spell.json()
+        tool = language_tool_python.LanguageTool('en-US')
+        corrected_text = tool.correct(text)
+        tool.close()
 
-    return grammar_corrections, spell_corrections
+        return JsonResponse({'text': corrected_text})
+
+    return JsonResponse({'error': 'Invalid request'})
+
+
+
 
 #diary entry
 @login_required
@@ -275,4 +249,5 @@ def delete_task(request, task_id):
 
 
 
-
+def grammar_check_view(request):
+    return render(request, 'grammar_check_form.html')

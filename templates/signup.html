@@ -22,21 +22,21 @@
       padding: 1rem 0;
     }
     .container {
-      position: relative; /* Relative positioning for content */
-      height: calc(100vh - 2rem); /* Adjusted to account for header and footer */
-      max-height: calc(100vh - 2rem); /* Set a maximum height */
+      position: relative; 
+      height: calc(100vh - 2rem); 
+      max-height: calc(100vh - 2rem);
     }
     .signup-box {
-      background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
+      background-color: rgba(255, 255, 255, 0.9); 
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
       padding: 2rem;
       text-align: center;
-      width: 400px; /* Fixed width */
-      position: absolute; /* Absolute positioning for signup box */
+      width: 400px; 
+      position: absolute; 
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%); /* Center horizontally and vertically */
+      transform: translate(-50%, -50%); 
     }
     .signup-heading {
       font-size: 1.5rem;
@@ -49,7 +49,6 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       padding-right: 0rem;
-      padding-left: 0rem;
     }
     .signup-button {
       display: inline-block;
@@ -62,21 +61,27 @@
       margin-top: 10px;
       
     }
+
     .login-button {
       display: block;
       padding: 0.8rem 2.5rem;
-      background-color: #333; /* Dark background for login button */
+      background-color: #333333; 
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
-      margin-top: 20px; /* Slightly more margin for separation */
+      margin-top: 20px; 
     }
     .footer {
       background-color: #333;
       color: #fff;
       text-align: center;
       padding: 1rem 0;
+    }
+    .error-message {
+      color: red;
+      margin-bottom: 10px;
+      text-align: center;
     }
   </style>
 </head>
@@ -89,17 +94,15 @@
     <div class="signup-box">
       <h2 class="signup-heading">Sign Up</h2>
 
-      {% if message %}
-      <script>
-          alert("{{ message }}");
-      </script>
-      {% endif %}
-  
       
       <form action="" method="POST">
         {% csrf_token %}
         <input type="text" class="input-field" placeholder=" Username" name="username" id="username" required>
-        <input type="password" class="input-field" placeholder=" Password" name="password" id="password" required>
+        <input type="password" class="input-field" placeholder=" Password" name="password" id="password" required><br>
+        <span id="password-message" style="display:none;color:red;"></span><br>
+        {% if message %}
+        <div class="error-message">{{ message }}</div>
+        {% endif %}  
         <button type="submit" class="signup-button">Sign Up</button>
       </form>
       
@@ -117,16 +120,8 @@
   </footer>
 
   <script>
-    function showSuccessMessage() {
-        const successMessage = document.getElementById('signup-success-message');
-        successMessage.style.display = 'block';
-    }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('success')) {
-        showSuccessMessage();
-    }
-</script>
+  </script>
 
 </body>
 </html>

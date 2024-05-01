@@ -126,7 +126,15 @@ body.dark-mode {
     font-weight: normal;
 }
 
+      .suggestions{
+            max-width: fit-content;
+            background: #e7e5e5;
+            padding: 20px;
+            border-radius: 5px;
+            color:#020202;
+        }
 
+        
 
   </style>
 
@@ -161,18 +169,27 @@ body.dark-mode {
       <a href="{% url 'logout' %}" class="profile-button" style="background-color: #333;">Logout</a>
     </div>
   </div>
+
+
+
+
+  <!-- <textarea id="myTextarea">
+   
+    </textarea>
+    
+    <button id="myButton">
+    Change
+    </button> -->
+
   <footer class="footer">
     <p>&copy; 2023 Digi Diary. All rights reserved.</p>
   </footer>
 
 
+
   <script>
-    const toggleButton = document.getElementById('dark-mode-toggle');
-    const body = document.body;
-  
-    toggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-    });
+ document.getElementById("myButton").addEventListener("click", function() { document.getElementById("myTextarea").value = "Mama mia you ain't changing anything";
+});
   </script>
   
 </body>
