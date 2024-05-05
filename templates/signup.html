@@ -1,89 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProDigi - Sign Up</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #555353;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-    .header {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 1rem 0;
-    }
-    .container {
-      position: relative; 
-      height: calc(100vh - 2rem); 
-      max-height: calc(100vh - 2rem);
-    }
-    .signup-box {
-      background-color: rgba(255, 255, 255, 0.9); 
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      padding: 2rem;
-      text-align: center;
-      width: 400px; 
-      position: absolute; 
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); 
-    }
-    .signup-heading {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .input-field {
-      width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding-right: 0rem;
-    }
-    .signup-button {
-      display: inline-block;
-      padding: 0.8rem 2.5rem;
-      background-color: #FF5733;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 10px;
-      
-    }
-
-    .login-button {
-      display: block;
-      padding: 0.8rem 2.5rem;
-      background-color: #333333; 
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      margin-top: 20px; 
-    }
-    .footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 1rem 0;
-    }
-    .error-message {
-      color: red;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/signup.css' %}">
 </head>
 <body>
   <header class="header">
@@ -116,7 +39,7 @@
     </div>
   </div>
   <footer class="footer">
-    <p>&copy; 2023 ProDigi. All rights reserved.</p>
+    <p>&copy; 2024 ProDigi. All rights reserved.</p>
   </footer>
 
   <script>

@@ -1,53 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProDigi - Login/Signup</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: url('https://www.vpcart.com/images/kelly-sikkema-Ge4nB83WNpg-unsplash.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #000;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .container {
-      max-width: 800px;
-      padding: 2rem;
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    }
-    .cta-button {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      padding-right: 0rem;
-      padding-left: 0rem;
-      background-color: #FF5733;
-      color: #fff;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      margin: 1rem auto; /* Center the buttons horizontally and add margin all around */
-    }
-    .project-details {
-      background-color: #252526;
-      color: #fff;
-      padding: 2.5rem;
-      border-radius: 5px;
-      margin-top: 1.5rem;
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/home.css' %}">
 </head>
 <body>
   <div class="container">

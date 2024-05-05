@@ -15,15 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from app1 import views
 from .decorators import prevent_logged_in_users
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 
 urlpatterns = [
     #Account    
-    path('admin/', admin.site.urls),
+    path('prodigiadmin/', admin.site.urls),
     path('', views.IndexPage, name='index'),
     path('home/', views.HomePage, name='home'),
     path('signup/', views.SignupPage, name='signup'),
@@ -49,4 +51,6 @@ urlpatterns = [
     path('apply_suggestions/', views.apply_suggestions, name='apply_suggestions'),
     path('grammar-check/', views.grammar_check_view, name='grammar_check'),
 
+    #Honeypot fake admin panel
+    
 ]

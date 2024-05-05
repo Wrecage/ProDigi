@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,225 +6,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ProDigi - Edit Entry</title>
-  <script>
-          document.addEventListener("DOMContentLoaded", function() {
-        var checkTextButton = document.getElementById("checkTextButton");
-        checkTextButton.addEventListener("click", handleCheckText);
-      });
-
-      function handleCheckText(event) {
-        event.preventDefault(); 
-        var formData = new FormData(document.getElementById("entryForm"));
-        var text = formData.get("content"); 
-        fetchTextSuggestions(text);
-      }
-
-      function fetchTextSuggestions(text) {
-        fetch("https://api.languagetool.org/v2/check", {
-            method: "POST",
-            body: "text=" + encodeURIComponent(text) + "&language=en-US",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        })
-        .then(response => response.json())
-        .then(displaySuggestions)
-        .catch(handleError);
-      }
-
-      function displaySuggestions(data) {
-        var suggestionsList = document.getElementById("suggestionsList");
-        suggestionsList.innerHTML = "";
-        data.matches.forEach(match => {
-            var listItem = document.createElement("div");
-            if (match.context) {
-                var correctedText = match.context.text.slice(0, match.context.offset) +
-                                    `<span class="error-location ">${match.context.text.slice(match.context.offset, match.context.offset + match.context.length)}</span>` +
-                                    match.context.text.slice(match.context.offset + match.context.length);
-                listItem.innerHTML = `
-                    <p class="error">✗ ${correctedText}</p>
-                    <p class="correction">✓ ${match.message}</p>
-                `;
-            } else {
-                listItem.textContent = match.message;
-            }
-            suggestionsList.appendChild(listItem);
-        });
-      }
-
-      function handleError(error) {
-        console.error("Error:", error);
-      }
-
-</script>
+  <script src="{% static 'blog/js/editdiaryentry.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/css/editdiaryentry.css' %}">
  </head>
-    <style>
-
-      body {
-        font-family: sans-serif;
-        background-color: #333333; 
-      }
-      h1 {
-        text-align: center;
-        color: #ffff;
-        margin-bottom: 1em;
-      }
-
-      .container {
-        display: flex;
-        flex: 1; 
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 1em;
-        background-color: #333333; 
-        border-radius: 5px;
-      }
 
 
-      .input-container {
-        flex: 1; 
-        padding: 1em;
-        background-color: #3f3d3d; 
-        border-radius: 5px;
-      }
-
-
-      form.edit-form {
-          margin: 1em;
-          padding: 1em;
-          background-color: #333; 
-          border-radius: 10px;
-          box-shadow: 0 0 20px rgba(44, 62, 80, 0.2); 
-          color: #ffffff; 
-      }
-
-
-
-      form.edit-form p {
-          margin-bottom: 15px;
-          color: #f5f4f4;
-          border-bottom: 2px solid #FF5733;
-          padding-bottom: 5px;
-          margin-bottom: 15px; 
-          font-family: 'Courier New', monospace;
-      }
-
-
-      form.edit-form input[type="date"],
-      form.edit-form input[type="time"],
-      form.edit-form input[type="text"]
-      {
-          padding: 8px;
-          width: 100%;
-          margin-bottom: 15px;
-          border: 1px solid #FF5733;
-          border-radius: 5px;
-          box-sizing: border-box;
-          color: #2c3e50; 
-          background-color: #FAFAD2;
-      }
-
-
-      form.edit-form textarea {
-          padding: 20px;
-          width: 100%;
-          margin-bottom: 15px;
-          border: 1px solid #FF5733;
-          border-radius: 5px;
-          box-sizing: border-box;
-          color: #2c3e50; 
-          background-color: #FAFAD2;
-          position: relative;
-      }
-
-
-      form.edit-form input[type="text"]::placeholder,
-      form.edit-form textarea::placeholder {
-          color: #95a5a6; 
-      }
-
-      form.edit-form input[type="text"]:focus,
-      form.edit-form textarea:focus {
-          outline: none;
-          border-color: #2ecc71; 
-          box-shadow: 0 0 5px rgba(46, 204, 113, 0.5); 
-      }
-
-      form.edit-form button, button {
-          padding: 10px;
-          background-color: #333333;
-          color: #FF5733;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-      }
-
-      form.edit-form button:hover, button:hover {
-            background-color: #FF5733;
-            color: #333333;
-            transition: 0.7s;
-        }
-
-     
-      .navigation {
-            position:absolute;
-            top: 0;
-            right: 0;
-            padding: 15px;
-            box-sizing: border-box;
-            z-index: 1000;
-            background-color: #333333;
-        }
-
-        .navigation img {
-            width: 40px; 
-            height: 40px; 
-            border-radius: 50%; 
-            margin-right: 10px; 
-        }
-
-        .navigation a {
-            color: #535252;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .suggestions-container {
-            margin-top: 33px;
-            width: 300px;
-            max-width: 500px;
-            background: #e7e5e5;
-            padding: 20px;
-            border-radius: 5px;
-            color:#020202;
-            overflow-y: auto; 
-            max-height: fit-content;
-            margin-bottom: 32.5px;
-        }
-
-        .suggestion {
-            margin-bottom: 5px;
-        }
-
-        .error {
-            color: red;
-            margin-bottom: 10px;
-        }
-
-        .correction {
-            color: rgb(2, 2, 2);
-        }
-        
-        .error-location {
-            background-color: rgba(252, 252, 70, 0.712);
-            padding: 2px;
-            border-radius: 2px;
-        }
-
-    </style>
-
-   
 <body>
 
 
@@ -254,7 +41,7 @@
 
 
   </div>
-  
+
 </body>
 
 
