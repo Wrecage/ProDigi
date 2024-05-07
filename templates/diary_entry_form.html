@@ -35,9 +35,9 @@
         <div class="entry" data-entry-id="{{ entry.id }}">
             <div class="entry-title">{{ entry.title }}</div>
             <div class="entry-reminder">{{ entry.date }}</div>
-            <!-- {% if entry.reminder_date and entry.reminder_time %}
+            {% if entry.reminder_date and entry.reminder_time %}
             <div class="entry-reminder"><span class="flicker-text">REMINDER:</span><br> {{ entry.reminder_date }} {{ entry.reminder_time }}</div>
-            {% endif %} -->
+            {% endif %}
 
             <!-- for editing -->
             <form method="GET" action="{% url 'edit_entry' entry.id %}" style="display: inline;">
@@ -80,12 +80,12 @@
                 </div>
 
                 <div>
-                    <!-- <label for="reminder_date" class="journal-label">Reminder Date:</label>
-                    <input type="date" id="reminder_date" name="reminder_date" class="entry-text-title" value="{{ entry.reminder_date|default:'' }}"> -->
+                    <label for="reminder_date" class="journal-label">Reminder Date:</label>
+                    <input type="date" id="reminder_date" name="reminder_date" class="entry-text-title" value="{{ entry.reminder_date|default:'' }}">
                 </div>
                 <div>
-                    <!-- <label for="reminder_time" class="journal-label">Reminder Time:</label>
-                    <input type="time" id="reminder_time" name="reminder_time" class="entry-text-title" value="{{ entry.reminder_time|default:'' }}"> -->
+                    <label for="reminder_time" class="journal-label">Reminder Time:</label>
+                    <input type="time" id="reminder_time" name="reminder_time" class="entry-text-title" value="{{ entry.reminder_time|default:'' }}">
                 </div>
                 
             </div>

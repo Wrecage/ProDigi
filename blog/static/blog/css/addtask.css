@@ -45,7 +45,7 @@ input, textarea, select {
 }
 
 .small-input {
-  width: calc(50% - 45em); 
+  max-width: fit-content; 
 }
 
 .medium-input {
@@ -78,7 +78,7 @@ button:active {
 
 
       .navigation {
-          position: fixed;
+          position: absolute;
           top: 0;
           right: 0;
           padding: 15px;
@@ -100,7 +100,7 @@ button:active {
           font-weight: bold;
       }
 
-      .profile-button {
+    .profile-button {
     display: inline-block;
     padding: 0.8rem 2.5rem;
     background-color: #FF5733;
